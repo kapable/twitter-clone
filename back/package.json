@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon app",
-    "start": "node app"
+    "start": "pm2 start app.js"
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +22,7 @@
     "mysql2": "^2.3.3",
     "passport": "^0.5.2",
     "passport-local": "^1.0.0",
+    "pm2": "^5.1.2",
     "sequelize": "^6.14.0",
     "sequelize-cli": "^6.4.1"
   },
