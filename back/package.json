@@ -6,11 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon app",
-<<<<<<< HEAD
-    "start": "pm2 start app.js"
-=======
     "start": "cross-env NODE_ENV=production pm2 start app.js"
->>>>>>> e1c4164fbea64eeb453e90345bb0bf38015e976a
   },
   "author": "",
   "license": "ISC",
