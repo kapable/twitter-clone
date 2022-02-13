@@ -13,6 +13,8 @@ const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const path = require('path');
+const helmet = require('helmet');
+const hpp = require('hpp');
 
 dotenv.config();
 db.sequelize.sync()
@@ -20,8 +22,15 @@ db.sequelize.sync()
         console.log('DB Connected...');
     })
     .catch(console.error);
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(morgan('combined'));
+    app.use(helmet());
+    app.use(hpp());
+} else {
+    app.use(morgan('dev'));
+}
 passportConfig();
-app.use(morgan('dev'));
 app.use(cors({
     origin: true,
     credentials: true,
