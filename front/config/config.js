@@ -1,1 +1,1 @@
-export const backUrl = 'http://13.209.33.146';
+export const backUrl = 'http://api.jellinggame.net/';
