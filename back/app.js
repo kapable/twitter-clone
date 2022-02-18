@@ -32,8 +32,8 @@ if (process.env.NODE_ENV === 'production') {
 }
 passportConfig();
 app.use(cors({
-    origin: true,
-    credentials: true,
+	origin: 'https://jellinggame.net',
+   	credentials: true,
 }));
 app.use('/', express.static(path.join(__dirname, 'uploads')));
 app.use(express.json());
@@ -44,7 +44,7 @@ app.use(session({
     secret: process.env.COOKIE_SECRET,
     cookie: {
         httpOnly: true,
-        secure: false,
+        secure: true,
         domain: process.env.NODE_ENV === 'production' && '.jellinggame.net'
     }
 }));
