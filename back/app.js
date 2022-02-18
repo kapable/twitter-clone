@@ -28,8 +28,26 @@ if (process.env.NODE_ENV === 'production') {
     app.use(morgan('combined'));
     app.use(helmet());
     app.use(hpp());
+
+    app.use(session({
+        saveUninitialized: false,
+        resave: false,
+        secret: process.env.COOKIE_SECRET,
+        proxy: true,
+        cookie: {
+            httpOnly: true,
+            secure: true,
+            domain: process.env.NODE_ENV === 'production' && '.jellinggame.net'
+        }
+    }));
 } else {
     app.use(morgan('dev'));
+
+    app.use(session({
+        saveUninitialized: false,
+        resave: false,
+        secret: process.env.COOKIE_SECRET,
+    }));
 }
 passportConfig();
 app.use(cors({
@@ -39,17 +57,6 @@ app.use(cors({
 app.use('/', express.static(path.join(__dirname, 'uploads')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(session({
-    saveUninitialized: false,
-    resave: false,
-    secret: process.env.COOKIE_SECRET,
-    proxy: true,
-    cookie: {
-        httpOnly: true,
-        secure: true,
-        domain: process.env.NODE_ENV === 'production' && '.jellinggame.net'
-    }
-}));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(passport.initialize());
 app.use(passport.session());

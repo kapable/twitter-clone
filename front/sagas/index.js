@@ -4,8 +4,11 @@ import postSaga from './post';
 import axios from 'axios';
 import { backUrl } from '../config/config';
 
-
-axios.defaults.baseURL = backUrl;
+if(process.env.NODE_ENV === 'development') {
+    axios.defaults.baseURL = 'http://localhost:3065';
+} else {
+    axios.defaults.baseURL = backUrl;
+}
 axios.defaults.withCredentials = true;
 
 export default function* rootSaga() {
