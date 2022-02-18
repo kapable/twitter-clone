@@ -24,6 +24,7 @@ db.sequelize.sync()
     .catch(console.error);
 
 if (process.env.NODE_ENV === 'production') {
+    app.enable('trust proxy');
     app.use(morgan('combined'));
     app.use(helmet());
     app.use(hpp());
