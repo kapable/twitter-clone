@@ -1,5 +1,6 @@
 import { all, fork, call, put, takeLatest, delay } from 'redux-saga/effects';
 import { ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE,
+    UPDATE_POST_REQUEST, UPDATE_POST_SUCCESS, UPDATE_POST_FAILURE,
     LOAD_POST_REQUEST, LOAD_POST_SUCCESS, LOAD_POST_FAILURE,
     LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAILURE,
     LOAD_USER_POSTS_REQUEST, LOAD_USER_POSTS_SUCCESS, LOAD_USER_POSTS_FAILURE,
@@ -35,6 +36,25 @@ function* addPost(action) {
     } catch (err) {
         yield put({
             type: ADD_POST_FAILURE,
+            error: err.response.data
+        })
+    }
+}
+
+function updatePostAPI(data) {
+    return axios.patch(`/post/${data.PostId}`, data);
+}
+
+function* updatePost(action) {
+    try {
+        const result = yield call(updatePostAPI, action.data);
+        yield put({
+            type: UPDATE_POST_SUCCESS,
+            data: result.data,
+        })
+    } catch (err) {
+        yield put({
+            type: UPDATE_POST_FAILURE,
             error: err.response.data
         })
     }
@@ -250,6 +270,10 @@ function* watchAddPost() {
     yield takeLatest(ADD_POST_REQUEST, addPost);
 }
 
+function* watchUpdatePost() {
+    yield takeLatest(UPDATE_POST_REQUEST, updatePost);
+}
+
 function* watchUploadImages() {
     yield takeLatest(UPLOAD_IMAGES_REQUEST, uploadImages);
 }
@@ -293,6 +317,7 @@ function* watchRetweet() {
 export default function* postSaga() {
     yield all([
         fork(watchAddPost),
+        fork(watchUpdatePost),
         fork(watchUploadImages),
         fork(watchLoadPost),
         fork(watchLoadPosts),

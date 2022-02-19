@@ -58,6 +58,9 @@ export const initialState = {
     uploadImagesLoading: false,
     uploadImagesDone: false,
     uploadImagesError: false,
+    updatePostLoading: false,
+    updatePostDone: false,
+    updatePostError: false,
     removePostLoading: false,
     removePostDone: false,
     removePostError: false,
@@ -118,6 +121,10 @@ export const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
 export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST';
 export const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS';
 export const UPLOAD_IMAGES_FAILURE = 'UPLOAD_IMAGES_FAILURE';
+
+export const UPDATE_POST_REQUEST = 'UPDATE_POST_REQUEST';
+export const UPDATE_POST_SUCCESS = 'UPDATE_POST_SUCCESS';
+export const UPDATE_POST_FAILURE = 'UPDATE_POST_FAILURE';
 
 export const REMOVE_POST_REQUEST = 'REMOVE_POST_REQUEST';
 export const REMOVE_POST_SUCCESS = 'REMOVE_POST_SUCCESS';
@@ -237,6 +244,21 @@ const reducer = (state=initialState, action) => {
             case UPLOAD_IMAGES_FAILURE:
                 draft.uploadImagesLoading = false;
                 draft.uploadImagesError = action.error;
+                break;
+            case UPDATE_POST_REQUEST:
+                draft.udpatePostLoading = true;
+                draft.udpatePostDone = false;
+                draft.udpatePostError = null;
+                break;
+            case UPDATE_POST_SUCCESS:
+                draft.mainPosts.find((v) => v.id === action.data.PostId).content = action.data.content;
+                draft.mainPosts = draft.mainPosts.filter((v) => v.id !== action.data.PostId);
+                draft.udpatePostDone = true;
+                draft.udpatePostLoading = false;
+                break;
+            case UPDATE_POST_FAILURE:
+                draft.removePostLoading = false;
+                draft.removePostError = action.error;
                 break;
             case REMOVE_POST_REQUEST:
                 draft.removePostLoading = true;
